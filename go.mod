@@ -5,6 +5,8 @@ go 1.19
 require gorm.io/driver/postgres v1.5.0
 
 require (
+	github.com/google/uuid v1.3.0
+	github.com/gorilla/mux v1.8.0
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.3.0 // indirect
