@@ -33,7 +33,15 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ResponseJson(w, http.StatusCreated, user)
+	meta := make(map[string]interface{})
+	meta["created_at"] = user.CreatedAt
+	meta["updated_at"] = user.UpdatedAt
+
+	responseData := make(map[string]interface{})
+	responseData["meta"] = meta
+	responseData["message"] = "Success Create User"
+
+	helper.ResponseJson(w, http.StatusCreated, responseData)
 
 }
 
@@ -45,11 +53,14 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ResponseJson(w, http.StatusOK, users)
+	responseData := make(map[string]interface{})
+	responseData["data"] = users
+	responseData["message"] = "Success Get All Products"
+
+	helper.ResponseJson(w, http.StatusOK, responseData)
 }
 
 func GetDetail(w http.ResponseWriter, r *http.Request) {
-
 	vars := mux.Vars(r)
 	id, err := strconv.ParseInt(vars["id"], 10, 64)
 	if err != nil {
@@ -69,5 +80,9 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	ResponseJson(w, http.StatusOK, user)
+	responseData := make(map[string]interface{})
+	responseData["data"] = user
+	responseData["message"] = "Success Get Detail Product"
+
+	helper.ResponseJson(w, http.StatusOK, responseData)
 }

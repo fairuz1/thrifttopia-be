@@ -61,9 +61,14 @@ func Login(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		Expires: expiresAt,
 	})
 
-	data := models.ResponseSuccessLogin{
-		Email: creds.Email,
+	userData := models.LoginData{
+		Email: user.Email,
+		Username: user.Name,
 		SessionToken: sessionToken,
+	}
+
+	data := models.ResponseSuccessLogin{
+		Data: userData,
 		Message: "Login success",
 	}
 

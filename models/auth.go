@@ -5,8 +5,12 @@ type Credentials struct {
 	Email    string `json:"email"`
 }
 
-type ResponseSuccessLogin struct {
-	Email           string    `json:"email"`
+type LoginData struct {
+	Email        string `json:"email"`
+	Username         string `json:"username"`
 	SessionToken string `json:"session_token"`
+}
+type ResponseSuccessLogin struct {
+	Data LoginData `json:"data"`
 	Message      string `json:"message"`
 }
