@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"thriftopia/connection"
 	"thriftopia/helper"
@@ -54,7 +55,29 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responseData := make(map[string]interface{})
-	responseData["data"] = users
+	var data []interface{}
+	for _, user := range users {
+		item := struct {
+			ID        int       `json:"id"`
+			RoleID    int       `json:"role_id"`
+			Name      string    `json:"name"`
+			Email     string    `json:"email"`
+			WaNumber  string    `json:"wa_number"`
+			CreatedAt time.Time `json:"created_at"`
+			UpdatedAt time.Time `json:"updated_at"`
+		}{
+			ID:        user.Id,
+			RoleID:    user.RoleId,
+			Name:      user.Name,
+			Email:     user.Email,
+			WaNumber:  user.WaNumber,
+			CreatedAt: user.CreatedAt,
+			UpdatedAt: user.UpdatedAt,
+		}
+		data = append(data, item)
+	}
+
+	responseData["data"] = data
 	responseData["message"] = "Success Get All Users"
 
 	helper.ResponseJson(w, http.StatusOK, responseData)
@@ -81,7 +104,16 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responseData := make(map[string]interface{})
-	responseData["data"] = user
+	data := make(map[string]interface{})
+	data["id"] = user.Id
+	data["role_id"] = user.RoleId
+	data["name"] = user.Name
+	data["email"] = user.Email
+	data["wa_number"] = user.WaNumber
+	data["created_at"] = user.CreatedAt
+	data["updated_at"] = user.UpdatedAt
+
+	responseData["data"] = data
 	responseData["message"] = "Success Get Detail Users"
 
 	helper.ResponseJson(w, http.StatusOK, responseData)
