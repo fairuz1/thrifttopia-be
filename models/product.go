@@ -11,7 +11,8 @@ type Product struct {
 	Title       string    `gorm:"type:varchar(100)" json:"title"`
 	Description string    `gorm:"type:varchar(255)" json:"description"`
 	Images      string    `gorm:"type:varchar(20)" json:"images"`
-	IsReviewed  bool      `gorm:"type:boolean;not null;default:false" json:"is_reviewed"`
+	Price       string    `gorm:"type:integer" json:"price"`
+	Status      string    `gorm:"type:boolean;not null;default:on_review" json:"status"`
 	IsSold      bool      `gorm:"type:boolean;not null;default:false" json:"is_sold"`
 	CreatedAt   time.Time `gorm:"type:timestamp without time zone;not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"type:timestamp without time zone;not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
