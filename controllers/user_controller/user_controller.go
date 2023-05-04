@@ -55,7 +55,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 
 	responseData := make(map[string]interface{})
 	responseData["data"] = users
-	responseData["message"] = "Success Get All Products"
+	responseData["message"] = "Success Get All Users"
 
 	helper.ResponseJson(w, http.StatusOK, responseData)
 }
@@ -82,7 +82,7 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 
 	responseData := make(map[string]interface{})
 	responseData["data"] = user
-	responseData["message"] = "Success Get Detail Product"
+	responseData["message"] = "Success Get Detail Users"
 
 	helper.ResponseJson(w, http.StatusOK, responseData)
 }
