@@ -14,7 +14,6 @@ func (r *Role) TableName() string {
 type User struct {
 	Id        int       `gorm:"primaryKey" json:"id"`
 	RoleId    int       `gorm:"foreignKey:Id" json:"role_id"`
-	Role      string    `gorm:"foreignKey:name;references:user_roles" json:"role"`
 	Name      string    `gorm:"type:varchar(50)" json:"name"`
 	Email     string    `gorm:"type:varchar(50)" json:"email"`
 	Password  string    `gorm:"type:varchar(50)" json:"password"`
