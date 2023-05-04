@@ -31,6 +31,8 @@ func main() {
 		Methods("GET")
 	r.HandleFunc("/v1/user/{id}", user_controller.GetDetail).
 		Methods("GET")
+	r.HandleFunc("/v1/user/{id}", user_controller.Update).
+		Methods("PUT")
 	r.HandleFunc("/v1/userroles", user_role_controller.GetList).
 		Methods("GET")
 

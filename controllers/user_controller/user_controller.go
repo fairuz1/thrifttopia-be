@@ -118,3 +118,49 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 
 	helper.ResponseJson(w, http.StatusOK, responseData)
 }
+
+func Update(w http.ResponseWriter, r *http.Request){
+	vars := mux.Vars(r)
+	id, err := strconv.ParseInt(vars["id"], 10, 64)
+	if err != nil {
+		ResponseError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	var user models.User
+	if err := connection.DB.First(&user, id).Error; err != nil {
+		switch err {
+		case gorm.ErrRecordNotFound:
+			ResponseError(w, http.StatusNotFound, "User not found")
+			return
+		default:
+			ResponseError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+	}
+
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&user); err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	defer r.Body.Close()
+
+	if err := connection.DB.Save(&user).Error; err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	user.UpdatedAt = time.Now()
+
+	meta := make(map[string]interface{})
+	meta["created_at"] = user.CreatedAt
+	meta["updated_at"] = user.UpdatedAt
+
+	responseData := make(map[string]interface{})
+	responseData["meta"] = meta
+	responseData["message"] = "Success Update User with ID " + vars["id"]
+
+	helper.ResponseJson(w, http.StatusCreated, responseData)
+}
