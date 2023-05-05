@@ -96,8 +96,8 @@ func Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var user models.Product
-	if err := connection.DB.First(&user, id).Error; err != nil {
+	var product models.Product
+	if err := connection.DB.First(&product, id).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
 			ResponseError(w, http.StatusNotFound, "Product not found")
@@ -109,23 +109,23 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&user); err != nil {
+	if err := decoder.Decode(&product); err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	defer r.Body.Close()
 
-	if err := connection.DB.Save(&user).Error; err != nil {
+	if err := connection.DB.Save(&product).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	user.UpdatedAt = time.Now()
+	product.UpdatedAt = time.Now()
 
 	meta := make(map[string]interface{})
-	meta["created_at"] = user.CreatedAt
-	meta["updated_at"] = user.UpdatedAt
+	meta["created_at"] = product.CreatedAt
+	meta["updated_at"] = product.UpdatedAt
 
 	responseData := make(map[string]interface{})
 	responseData["meta"] = meta
