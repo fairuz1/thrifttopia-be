@@ -6,6 +6,7 @@ import (
 	"thriftopia/connection"
 	"thriftopia/controllers/auth_controller"
 	"thriftopia/controllers/history_controller"
+	"thriftopia/controllers/log_activity_controller"
 	"thriftopia/controllers/pricing_controller"
 	"thriftopia/controllers/product_controller"
 	"thriftopia/controllers/user_controller"
@@ -65,6 +66,12 @@ func main() {
 		Methods("PUT")
 	r.HandleFunc("/v1/pricing_plan/{id}", pricing_controller.Delete).
 		Methods("DELETE")
+
+	// Log Acitivity routes
+	r.HandleFunc("/v1/log_activity", log_activity_controller.Create).
+		Methods("POST")
+	r.HandleFunc("/v1/log_activities", log_activity_controller.GetList).
+		Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
