@@ -73,5 +73,5 @@ func main() {
 	r.HandleFunc("/v1/log_activities", log_activity_controller.GetList).
 		Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServe(":9990", r))
 }
