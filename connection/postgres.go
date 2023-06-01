@@ -8,7 +8,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dsn := "host=47.88.89.199 user=thriftopia password=password dbname=db_thriftopia port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+	dsn := "host=tiny.db.elephantsql.com user=nawvdgtv password=5tS41gv1lbNCX6Oows-1tjaxhAmKbw1P dbname=nawvdgtv port=5432 sslmode=disable TimeZone=Asia/Shanghai"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)

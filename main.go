@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"thriftopia/connection"
@@ -18,6 +19,10 @@ import (
 func main() {
 	connection.ConnectDatabase()
 	r := mux.NewRouter()
+
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Welcome to Thriftopia API!")
+	})
 
 	// User routes
 	r.HandleFunc("/v1/register", user_controller.Register).
@@ -73,5 +78,5 @@ func main() {
 	r.HandleFunc("/v1/log_activities", log_activity_controller.GetList).
 		Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":9990", r))
+	log.Fatal(http.ListenAndServe(":8000", r))
 }
