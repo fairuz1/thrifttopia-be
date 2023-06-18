@@ -12,6 +12,7 @@ import (
 	"thriftopia/controllers/product_controller"
 	"thriftopia/controllers/user_controller"
 	"thriftopia/controllers/user_role_controller"
+	"thriftopia/controllers/whatsapp_api"
 	"thriftopia/middleware"
 
 	"github.com/gorilla/mux"
@@ -56,9 +57,9 @@ func main() {
 		Methods("GET")
 	r.Handle("/v1/product/{id}", middleware.AdminAuthenticator(http.HandlerFunc(product_controller.Update))).
 		Methods("PUT")
-	r.Handle("/v1/product/publish/{id}", middleware.AdminAuthenticator(http.HandlerFunc(product_controller.Publish)) ).
+	r.Handle("/v1/product/publish/{id}", middleware.AdminAuthenticator(http.HandlerFunc(product_controller.Publish))).
 		Methods("PUT")
-	r.Handle("/v1/product/reject/{id}", middleware.AdminAuthenticator(http.HandlerFunc(product_controller.Reject)) ).
+	r.Handle("/v1/product/reject/{id}", middleware.AdminAuthenticator(http.HandlerFunc(product_controller.Reject))).
 		Methods("PUT")
 	r.Handle("/v1/product/sold/{id}", middleware.Authenticator(http.HandlerFunc(product_controller.ChangeToSold))).
 		Methods("PUT")
@@ -80,6 +81,8 @@ func main() {
 		Methods("POST")
 	r.Handle("/v1/log_activities", middleware.AdminAuthenticator(http.HandlerFunc(log_activity_controller.GetList))).
 		Methods("GET")
+
+	r.HandleFunc("/validate/{phone_number}", whatsapp_api.ValidateNumber).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":9990", r))
 }
