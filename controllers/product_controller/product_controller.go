@@ -47,7 +47,28 @@ func Create(w http.ResponseWriter, r *http.Request) {
 func GetList(w http.ResponseWriter, r *http.Request) {
 	var products []models.Product
 
-	if err := connection.DB.Find(&products).Error; err != nil {
+	query := r.URL.Query()
+	isSoldStr := query.Get("is_sold")
+	if isSoldStr == "" {
+		if err := connection.DB.Find(&products).Error; err != nil {
+			ResponseError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		responseData := make(map[string]interface{})
+		responseData["data"] = products
+		responseData["message"] = "Success Get All Products"
+
+		ResponseJson(w, http.StatusOK, responseData)
+		return
+	}
+
+	isSold, err := strconv.ParseBool(isSoldStr)
+	if err != nil {
+		ResponseError(w, http.StatusBadRequest, "Invalid value for 'is_sold' parameter")
+		return
+	}
+
+	if err := connection.DB.Where(`is_sold = $1`, isSold).Find(&products).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -57,7 +78,6 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	responseData["message"] = "Success Get All Products"
 
 	ResponseJson(w, http.StatusOK, responseData)
-
 }
 
 func GetDetail(w http.ResponseWriter, r *http.Request) {
@@ -160,12 +180,6 @@ func ChangeToSold(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	product.IsSold = true
-
-	if err := connection.DB.Save(&product).Error; err != nil {
-		ResponseError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
 
 	query := r.URL.Query()
 	buyerID, err := strconv.Atoi(query.Get("buyer_id"))
@@ -180,11 +194,18 @@ func ChangeToSold(w http.ResponseWriter, r *http.Request) {
 
 	transactionHistory := models.TransactionHistories{
 		ProductID: product.Id,
-		BuyerID: buyerID,
+		BuyerID:   buyerID,
 		CreatedAt: time.Now(),
 	}
 
 	if err := connection.DB.Create(&transactionHistory).Error; err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	product.IsSold = true
+
+	if err := connection.DB.Save(&product).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
