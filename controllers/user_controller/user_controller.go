@@ -175,5 +175,5 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	responseData["meta"] = meta
 	responseData["message"] = "Success Update User with ID " + vars["id"]
 
-	helper.ResponseJson(w, http.StatusCreated, responseData)
+	helper.ResponseJson(w, http.StatusOK, responseData)
 }

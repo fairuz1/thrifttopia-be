@@ -90,7 +90,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	responseData := make(map[string]interface{})
 	responseData["message"] = "Success Update Pricing Plan with ID " + vars["id"]
 
-	helper.ResponseJson(w, http.StatusCreated, responseData)
+	helper.ResponseJson(w, http.StatusOK, responseData)
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
@@ -121,5 +121,5 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	responseData := make(map[string]interface{})
 	responseData["message"] = "Success Delete Pricing Plan with ID " + vars["id"]
 
-	helper.ResponseJson(w, http.StatusCreated, responseData)
+	helper.ResponseJson(w, http.StatusOK, responseData)
 }

@@ -131,7 +131,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	responseData["meta"] = meta
 	responseData["message"] = "Success Update Product with ID " + vars["id"]
 
-	helper.ResponseJson(w, http.StatusCreated, responseData)
+	helper.ResponseJson(w, http.StatusOK, responseData)
 }
 
 func ChangeToSold(w http.ResponseWriter, r *http.Request) {
@@ -197,7 +197,7 @@ func ChangeToSold(w http.ResponseWriter, r *http.Request) {
 	responseData["meta"] = meta
 	responseData["message"] = "Success Change Product with ID " + vars["id"] + " to Sold"
 
-	ResponseJson(w, http.StatusCreated, responseData)
+	ResponseJson(w, http.StatusOK, responseData)
 }
 
 func Publish(w http.ResponseWriter, r *http.Request) {
@@ -236,7 +236,7 @@ func Publish(w http.ResponseWriter, r *http.Request) {
 	responseData["meta"] = meta
 	responseData["message"] = "Success Publish Product with ID " + vars["id"]
 
-	ResponseJson(w, http.StatusCreated, responseData)
+	ResponseJson(w, http.StatusOK, responseData)
 }
 
 func Reject(w http.ResponseWriter, r *http.Request) {
@@ -275,5 +275,5 @@ func Reject(w http.ResponseWriter, r *http.Request) {
 	responseData["meta"] = meta
 	responseData["message"] = "Success Reject Product with ID " + vars["id"]
 
-	ResponseJson(w, http.StatusCreated, responseData)
+	ResponseJson(w, http.StatusOK, responseData)
 }

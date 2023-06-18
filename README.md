@@ -251,7 +251,7 @@ Retrieves all user roles.
 
 **Response Success**
 
-- HTTP Status: 201 Created
+- HTTP Status: 200 OK
 - Content-Type: application/json
 
 ```json
@@ -510,7 +510,7 @@ Retrieves all user roles.
 
 **Response Success**
 
-- HTTP Status: 201 Created
+- HTTP Status: 200 OK
 - Content-Type: application/json
 
 ```json
@@ -569,7 +569,7 @@ Retrieves all user roles.
 
 **Response Success**
 
-- HTTP Status: 201 Created
+- HTTP Status: 200 OK
 - Content-Type: application/json
 
 ```json
@@ -629,7 +629,7 @@ Retrieves all user roles.
 
 **Response Success**
 
-- HTTP Status: 201 Created
+- HTTP Status: 200 OK
 - Content-Type: application/json
 
 ```json
@@ -850,7 +850,7 @@ Retrieves all user roles.
 
 **Response Success**
 
-- HTTP Status: 201 Created
+- HTTP Status: 200 OK
 - Content-Type: application/json
 
 ```json
@@ -895,7 +895,7 @@ Retrieves all user roles.
 
 **Response Success**
 
-- HTTP Status: 201 Created
+- HTTP Status: 200 OK
 - Content-Type: application/json
 
 ```json
@@ -967,7 +967,7 @@ Retrieves all user roles.
 
 **Response Success**
 
-- HTTP Status: 201 Created
+- HTTP Status: 200 OK
 - Content-Type: application/json
 
 ```json
