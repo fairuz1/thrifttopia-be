@@ -145,8 +145,6 @@ Retrieves detail information of a user.
 - URL: `/users/{userId}`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
-- Parameters:
-  - `userId` (required, int): The unique identifier of the user.
 
 **Response Success**
 
@@ -239,8 +237,6 @@ Retrieves all user roles.
 - URL: `/user/{userId}`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
-- Parameters:
-  - `userId` (required, int): The unique identifier of the user.
 ```json
 {
     "role_id" : 1002,
@@ -626,6 +622,8 @@ Retrieves all user roles.
 - URL: `/product/sold/{id}`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
+- Query Params:
+  - `buyer_id` (required, integer): The unique identifier of the user who made the purchase.
 
 **Response Success**
 
@@ -1020,8 +1018,6 @@ Retrieves all user roles.
 
 - Method: GET
 - URL: `/validate/{phone_number}`
-- Parameters:
-  - `phone_number` (required, string): The phone number to be validated.
 
 **Response Phone Number is Syntactically Valid**
 
