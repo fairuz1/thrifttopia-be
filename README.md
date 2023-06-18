@@ -2,7 +2,7 @@
 
 
 ## Base URL
-All API endpoints have the base URL: `-`
+All API endpoints have the base URL: `http://47.88.89.199:9990/v1`
 
 ## Authentication
 API requests require authentication using an access token. To obtain the access token, you need to log in by making a request to the login endpoint. Once you have the access token, include it in the `Authorization` header of each subsequent request.
@@ -237,14 +237,15 @@ Retrieves all user roles.
 - URL: `/user/{userId}`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
-```json
-{
-    "role_id" : 1002,
-    "name": "nama lengkap",
-    "email": "bbb@gmail.com",
-    "wa_number": "+628123"
-}
-
+- Body:
+    ```json
+    {
+        "role_id" : 1002,
+        "name": "nama lengkap",
+        "email": "bbb@gmail.com",
+        "wa_number": "+628123"
+    }
+    ```
 **Response Success**
 
 - HTTP Status: 200 OK
@@ -282,19 +283,20 @@ Retrieves all user roles.
 - URL: `/product`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
-```json
-{
-    "user_id": 13,
-    "category_id": 1001,
-    "location_id": 1001,
-    "pricing_id": 1001,
-    "proof_of_payment": "abc",
-    "price": 90000,
-    "title": "Buku sbmptn",
-    "description": "masih sedikit coretan",
-    "images": "abc"
-}
-
+- Body:
+    ```json
+    {
+        "user_id": 13,
+        "category_id": 1001,
+        "location_id": 1001,
+        "pricing_id": 1001,
+        "proof_of_payment": "abc",
+        "price": 90000,
+        "title": "Buku sbmptn",
+        "description": "masih sedikit coretan",
+        "images": "abc"
+    }
+    ```
 **Response Success**
 
 - HTTP Status: 201 Created
@@ -330,6 +332,8 @@ Retrieves all user roles.
 
 - Method: GET
 - URL: `/products`
+- Query Params:
+  - `is_sold` (optional, boolean): Filter products based on their sold status. Set to `true` to retrieve only sold products, or `false` to retrieve only unsold products.
 
 **Response Success**
 
@@ -367,7 +371,7 @@ Retrieves all user roles.
             "price": 90000,
             "proof_of_payment": "",
             "status": "on_review",
-            "is_sold": false,
+            "is_sold": true,
             "created_at": "2023-06-18T14:19:55.812957Z",
             "updated_at": "2023-06-18T14:19:55.812957Z"
         },
@@ -383,9 +387,82 @@ Retrieves all user roles.
             "price": 90000,
             "proof_of_payment": "abc",
             "status": "on_review",
-            "is_sold": false,
+            "is_sold": true,
             "created_at": "2023-06-18T14:22:15.978477Z",
             "updated_at": "2023-06-18T14:22:15.978477Z"
+        }
+    ],
+    "message": "Success Get All Products"
+}
+```
+
+**Response Success (is_sold = true)**
+
+- HTTP Status: 200 OK
+- Content-Type: application/json
+
+```json
+{
+    "data": [
+        {
+            "id": 26,
+            "user_id": 13,
+            "category_id": 1001,
+            "location_id": 1001,
+            "pricing_id": 1001,
+            "title": "Buku sbmptn",
+            "description": "masih sedikit coretan",
+            "images": "",
+            "price": 90000,
+            "proof_of_payment": "",
+            "status": "on_review",
+            "is_sold": true,
+            "created_at": "2023-06-18T14:19:55.812957Z",
+            "updated_at": "2023-06-18T14:19:55.812957Z"
+        },
+        {
+            "id": 27,
+            "user_id": 13,
+            "category_id": 1001,
+            "location_id": 1001,
+            "pricing_id": 1001,
+            "title": "Buku sbmptn",
+            "description": "masih sedikit coretan",
+            "images": "abc",
+            "price": 90000,
+            "proof_of_payment": "abc",
+            "status": "on_review",
+            "is_sold": true,
+            "created_at": "2023-06-18T14:22:15.978477Z",
+            "updated_at": "2023-06-18T14:22:15.978477Z"
+        }
+    ],
+    "message": "Success Get All Products"
+}
+```
+**Response Success (is_sold = false)**
+
+- HTTP Status: 200 OK
+- Content-Type: application/json
+
+```json
+{
+    "data": [
+        {
+            "id": 25,
+            "user_id": 13,
+            "category_id": 1001,
+            "location_id": 1001,
+            "pricing_id": 1001,
+            "title": "Buku sbmptn",
+            "description": "masih sedikit coretan",
+            "images": "",
+            "price": 90000,
+            "proof_of_payment": "",
+            "status": "on_review",
+            "is_sold": false,
+            "created_at": "2023-06-18T14:19:15.039086Z",
+            "updated_at": "2023-06-18T14:19:15.039086Z"
         }
     ],
     "message": "Success Get All Products"
@@ -438,12 +515,13 @@ Retrieves all user roles.
 - URL: `/product/{id}`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
-```json
-{
-    "price": 234000,
-    "description": "ayo dibeli dibeli"
-}
-```
+- Body:
+    ```json
+    {
+        "price": 234000,
+        "description": "ayo dibeli dibeli"
+    }
+    ```
 
 **Response Success**
 
@@ -614,12 +692,12 @@ Retrieves all user roles.
 
 
 <details>
-<summary>Change to Sold Product (Admin Only)</summary>
+<summary>Change Product to Sold (Admin Only)</summary>
 
 **Request**
 
 - Method: PUT
-- URL: `/product/sold/{id}`
+- URL: `/product/sold/{id}?buyer_id=`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
 - Query Params:
@@ -632,7 +710,11 @@ Retrieves all user roles.
 
 ```json
 {
-    "message": "Success Change Product with ID 25 to Sold"
+    "message": "Success Change Product with ID 23 to Sold",
+    "meta": {
+        "created_at": "2023-06-17T22:19:13.881935Z",
+        "updated_at": "2023-06-18T20:34:58.1252689+07:00"
+    }
 }
 ```
 
@@ -688,52 +770,10 @@ Retrieves all user roles.
 {
     "data": [
         {
-            "id": 25,
-            "user_id": 13,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "ayo dibeli dibeli",
-            "images": "",
-            "price": 234000,
-            "proof_of_payment": "",
-            "status": "published",
-            "is_sold": true,
-            "created_at": "2023-06-18T14:19:15.039086Z",
-            "updated_at": "2023-06-18T13:48:36.831266Z"
-        },
-        {
-            "id": 28,
-            "user_id": 13,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "masih sedikit coretan",
-            "images": "abc",
-            "price": 90000,
-            "proof_of_payment": "abc",
-            "status": "on_review",
-            "is_sold": true,
-            "created_at": "2023-06-18T14:49:10.047067Z",
-            "updated_at": "2023-06-18T13:49:40.882697Z"
-        },
-        {
-            "id": 29,
-            "user_id": 13,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "masih sedikit coretan",
-            "images": "abc",
-            "price": 90000,
-            "proof_of_payment": "abc",
-            "status": "on_review",
-            "is_sold": true,
-            "created_at": "2023-06-18T14:51:58.959275Z",
-            "updated_at": "2023-06-18T13:52:26.943276Z"
+            "id": 6,
+            "product_id": 23,
+            "buyer_id": 22,
+            "created_at": "2023-06-18T20:34:57.821891Z"
         }
     ],
     "message": "Success Get All Transaction Histories"
@@ -751,13 +791,14 @@ Retrieves all user roles.
 - URL: `/pricing_plan`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
-```json
-{
-    "name": "paket spesial",
-    "price": 20000,
-    "ads_duration": "7d"
-}
-```
+- Body:
+    ```json
+    {
+        "name": "paket spesial",
+        "price": 20000,
+        "ads_duration": "7d"
+    }
+    ```
 
 **Response Success**
 
@@ -838,13 +879,14 @@ Retrieves all user roles.
 - URL: `/pricing_plan/{id}`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
-```json
-{
-    "name": "diskon spesial",
-    "price": 0,
-    "ads_duration": "0"
-}
-```
+- Body:
+    ```json
+    {
+        "name": "diskon spesial",
+        "price": 0,
+        "ads_duration": "0"
+    }
+    ```
 
 **Response Success**
 
@@ -933,12 +975,13 @@ Retrieves all user roles.
 
 - Method: POST
 - URL: `/log_activity`
-```json
-{
-    "user_id": 13,
-    "activity_id": 1001
-}
-```
+- Body:
+    ```json
+    {
+        "user_id": 13,
+        "activity_id": 1001
+    }
+    ```
 
 **Response Success**
 
