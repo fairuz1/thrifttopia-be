@@ -51,7 +51,7 @@ func ValidateNumber(w http.ResponseWriter, r *http.Request) {
 
 	isValid, ok := responseFromWAAPI["is_valid"].(bool)
 	if !ok {
-		ResponseError(w, resp.StatusCode, "Error from whatsapp api")
+		ResponseError(w, resp.StatusCode, "Invalid request")
 		return
 	}
 
