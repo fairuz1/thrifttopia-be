@@ -4,6 +4,8 @@ go 1.19
 
 require gorm.io/driver/postgres v1.5.0
 
+require github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+
 require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0

@@ -7,10 +7,10 @@ type Credentials struct {
 
 type LoginData struct {
 	Email        string `json:"email"`
-	Username         string `json:"username"`
-	SessionToken string `json:"session_token"`
+	Username     string `json:"username"`
+	SessionToken string `json:"token"`
 }
 type ResponseSuccessLogin struct {
-	Data LoginData `json:"data"`
-	Message      string `json:"message"`
+	Data    LoginData `json:"data"`
+	Message string    `json:"message"`
 }

@@ -11,6 +11,7 @@ import (
 	"thriftopia/models"
 
 	"github.com/gorilla/mux"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -29,7 +30,19 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	if err := connection.DB.Create(&user).Error; err != nil {
+	// hash password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	user.Password = string(hashedPassword)
+
+	query := `INSERT INTO users (role_id, name, email, password, wa_number, created_at, updated_at)
+			  VALUES (?, ?, ?, ?, ?, ?, ?)`
+
+	if err := connection.DB.Exec(query, user.RoleId, user.Name, user.Email, user.Password, user.WaNumber, user.CreatedAt, user.UpdatedAt).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -49,7 +62,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 func GetList(w http.ResponseWriter, r *http.Request) {
 	var users []models.User
 
-	if err := connection.DB.Find(&users).Error; err != nil {
+	if err := connection.DB.Preload("Role").Find(&users).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -59,7 +72,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	for _, user := range users {
 		item := struct {
 			ID        int       `json:"id"`
-			RoleID    int       `json:"role_id"`
+			Role      string    `json:"role"`
 			Name      string    `json:"name"`
 			Email     string    `json:"email"`
 			WaNumber  string    `json:"wa_number"`
@@ -67,7 +80,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 			UpdatedAt time.Time `json:"updated_at"`
 		}{
 			ID:        user.Id,
-			RoleID:    user.RoleId,
+			Role:      user.Role.Name,
 			Name:      user.Name,
 			Email:     user.Email,
 			WaNumber:  user.WaNumber,
@@ -92,10 +105,10 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var user models.User
-	if err := connection.DB.First(&user, id).Error; err != nil {
+	if err := connection.DB.Preload("Role").First(&user, id).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
-			ResponseError(w, http.StatusNotFound, "User tidak ditemukan")
+			ResponseError(w, http.StatusNotFound, "User not found")
 			return
 		default:
 			ResponseError(w, http.StatusInternalServerError, err.Error())
@@ -106,7 +119,7 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 	responseData := make(map[string]interface{})
 	data := make(map[string]interface{})
 	data["id"] = user.Id
-	data["role_id"] = user.RoleId
+	data["role"] = user.Role.Name
 	data["name"] = user.Name
 	data["email"] = user.Email
 	data["wa_number"] = user.WaNumber
@@ -119,7 +132,7 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 	helper.ResponseJson(w, http.StatusOK, responseData)
 }
 
-func Update(w http.ResponseWriter, r *http.Request){
+func Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseInt(vars["id"], 10, 64)
 	if err != nil {

@@ -13,6 +13,5 @@ func ConnectDatabase() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate()
 	DB = db
 }

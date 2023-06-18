@@ -9,7 +9,8 @@ import (
 	"thriftopia/models"
 	"time"
 
-	"github.com/google/uuid"
+	"github.com/dgrijalva/jwt-go"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -17,12 +18,31 @@ import (
 var sessions = map[string]session{}
 
 type session struct {
-	email string
-	expiry   time.Time
+	email  string
+	expiry time.Time
 }
 
 func (s session) isExpired() bool {
 	return s.expiry.Before(time.Now())
+}
+
+func GenerateToken(userId int, name string, role string, email string) (string, error) {
+    // Buat token baru dengan claims yang sesuai
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+        "user_id": userId,
+		"name": name,
+		"role": role,
+		"email": email,
+        "exp":    time.Now().Add(time.Hour * 24).Unix(), // Token berlaku selama 24 jam
+    })
+
+    // Tandatangani token menggunakan secret key yang rahasia
+    tokenString, err := token.SignedString([]byte("secret-key-thriftopia"))
+    if err != nil {
+        return "", err
+    }
+
+    return tokenString, nil
 }
 
 func Login(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
@@ -35,24 +55,29 @@ func Login(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 
 	// Query the database to retrieve the user's credentials
 	var user models.User
-	err = db.Where(`email = $1`, creds.Email).First(&user).Error
+	err = db.Preload("Role").Where(`email = $1`, creds.Email).First(&user).Error
 	if err != nil {
 		helper.ResponseJson(w, http.StatusUnauthorized, map[string]string{"message": err.Error()})
 		return
 	}
 
-	if user.Password != creds.Password {
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(creds.Password))
+	if err != nil {
 		helper.ResponseJson(w, http.StatusUnauthorized, map[string]string{"message": "Wrong password"})
 		return
 	}
 
 	// session token
-	sessionToken := uuid.NewString()
+	sessionToken, err := GenerateToken(user.Id, user.Name, user.Role.Name, user.Email)
+	if err != nil {
+		helper.ResponseJson(w, http.StatusInternalServerError, map[string]string{"message": err.Error()})
+		return
+	}
 	expiresAt := time.Now().Add(24 * time.Hour)
 
 	sessions[sessionToken] = session{
-		email: creds.Email,
-		expiry:   expiresAt,
+		email:  creds.Email,
+		expiry: expiresAt,
 	}
 
 	http.SetCookie(w, &http.Cookie{
@@ -62,13 +87,13 @@ func Login(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	})
 
 	userData := models.LoginData{
-		Email: user.Email,
-		Username: user.Name,
+		Email:        user.Email,
+		Username:     user.Name,
 		SessionToken: sessionToken,
 	}
 
 	data := models.ResponseSuccessLogin{
-		Data: userData,
+		Data:    userData,
 		Message: "Login success",
 	}
 
