@@ -51,7 +51,7 @@ func ValidateNumber(w http.ResponseWriter, r *http.Request) {
 
 	isValid, ok := responseFromWAAPI["is_valid"].(bool)
 	if !ok {
-		ResponseError(w, resp.StatusCode, "Invalid request")
+		ResponseError(w, http.StatusOK, "Invalid request")
 		return
 	}
 
@@ -61,21 +61,21 @@ func ValidateNumber(w http.ResponseWriter, r *http.Request) {
 			responseData := make(map[string]interface{})
 			responseData["is_valid_number"] = isValid
 
-			ResponseJson(w, resp.StatusCode, responseData)
+			ResponseJson(w, http.StatusOK, responseData)
 			return
 		}
 		responseData := make(map[string]interface{})
 		responseData["is_valid_number"] = isValid
 		responseData["on_whatsapp"] = onWhatsApp
 
-		ResponseJson(w, resp.StatusCode, responseData)
+		ResponseJson(w, http.StatusOK, responseData)
 		fmt.Println("okeeeeeeiiiiiiiiii")
 		return
 	} else {
 		responseData := make(map[string]interface{})
 		responseData["is_valid_number"] = isValid
 
-		ResponseJson(w, resp.StatusCode, responseData)
+		ResponseJson(w, http.StatusOK, responseData)
 		return
 	}
 
