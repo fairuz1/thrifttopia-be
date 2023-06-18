@@ -80,13 +80,13 @@ func AdminAuthenticator(next http.Handler) http.Handler {
 			// Memeriksa peran pengguna dari token
 			claims, ok := token.Claims.(jwt.MapClaims)
 			if !ok {
-				w.WriteHeader(http.StatusUnauthorized)
+				ResponseError(w, http.StatusUnauthorized, "Unauthorized")
 				return
 			}
 
 			role, ok := claims["role"].(string)
 			if !ok {
-				w.WriteHeader(http.StatusUnauthorized)
+				ResponseError(w, http.StatusUnauthorized, "Unauthorized")
 				return
 			}
 
@@ -96,11 +96,11 @@ func AdminAuthenticator(next http.Handler) http.Handler {
 				next.ServeHTTP(w, r)
 			} else {
 				// Jika pengguna bukan admin, berikan respons akses ditolak
-				w.WriteHeader(http.StatusForbidden)
+				ResponseError(w, http.StatusForbidden, "Forbidden")
 				return
 			}
 		} else {
-			w.WriteHeader(http.StatusUnauthorized)
+			ResponseError(w, http.StatusUnauthorized, "Unauthorized")
 			return
 		}
 

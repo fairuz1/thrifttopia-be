@@ -234,7 +234,7 @@ func Publish(w http.ResponseWriter, r *http.Request) {
 
 	responseData := make(map[string]interface{})
 	responseData["meta"] = meta
-	responseData["message"] = "Success Publish Product with ID " + vars["id"] + " to Sold"
+	responseData["message"] = "Success Publish Product with ID " + vars["id"]
 
 	ResponseJson(w, http.StatusCreated, responseData)
 }
@@ -273,7 +273,7 @@ func Reject(w http.ResponseWriter, r *http.Request) {
 
 	responseData := make(map[string]interface{})
 	responseData["meta"] = meta
-	responseData["message"] = "Success Reject Product with ID " + vars["id"] + " to Sold"
+	responseData["message"] = "Success Reject Product with ID " + vars["id"]
 
 	ResponseJson(w, http.StatusCreated, responseData)
 }

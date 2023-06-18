@@ -40,7 +40,6 @@ func main() {
 
 	r.Handle("/v1/users", middleware.AdminAuthenticator(http.HandlerFunc(user_controller.GetList))).
 		Methods("GET")
-
 	r.Handle("/v1/user/{id}", middleware.Authenticator(http.HandlerFunc(user_controller.GetDetail))).
 		Methods("GET")
 	r.Handle("/v1/user/{id}", middleware.Authenticator(http.HandlerFunc(user_controller.Update))).
