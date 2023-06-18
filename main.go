@@ -44,7 +44,7 @@ func main() {
 		Methods("GET")
 	r.Handle("/v1/user/{id}", middleware.Authenticator(http.HandlerFunc(user_controller.Update))).
 		Methods("PUT")
-	r.Handle("/v1/userroles", middleware.Authenticator(http.HandlerFunc(user_role_controller.GetList))).
+	r.Handle("/v1/userroles", middleware.AdminAuthenticator(http.HandlerFunc(user_role_controller.GetList))).
 		Methods("GET")
 
 	// Product routes
