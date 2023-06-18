@@ -327,6 +327,7 @@ Retrieves all user roles.
 
 <details>
 <summary>Get Products</summary>
+Retrieves a list of products based on the provided query parameters.
 
 **Request**
 
@@ -334,6 +335,8 @@ Retrieves all user roles.
 - URL: `/products`
 - Query Params:
   - `is_sold` (optional, boolean): Filter products based on their sold status. Set to `true` to retrieve only sold products, or `false` to retrieve only unsold products.
+  - `page` (optional, integer): Specify the page number for pagination. Defaults to 1 if not provided.
+  - `page_size` (optional, integer): Specify the number of products per page. Defaults to 10 if not provided.
 
 **Response Success**
 
@@ -344,7 +347,7 @@ Retrieves all user roles.
 {
     "data": [
         {
-            "id": 25,
+            "id": 22,
             "user_id": 13,
             "category_id": 1001,
             "location_id": 1001,
@@ -355,12 +358,12 @@ Retrieves all user roles.
             "price": 90000,
             "proof_of_payment": "",
             "status": "on_review",
-            "is_sold": false,
-            "created_at": "2023-06-18T14:19:15.039086Z",
-            "updated_at": "2023-06-18T14:19:15.039086Z"
+            "is_sold": true,
+            "created_at": "2023-06-01T16:31:28.138464Z",
+            "updated_at": "2023-06-18T20:31:09.668876Z"
         },
         {
-            "id": 26,
+            "id": 23,
             "user_id": 13,
             "category_id": 1001,
             "location_id": 1001,
@@ -372,102 +375,27 @@ Retrieves all user roles.
             "proof_of_payment": "",
             "status": "on_review",
             "is_sold": true,
-            "created_at": "2023-06-18T14:19:55.812957Z",
-            "updated_at": "2023-06-18T14:19:55.812957Z"
-        },
-        {
-            "id": 27,
-            "user_id": 13,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "masih sedikit coretan",
-            "images": "abc",
-            "price": 90000,
-            "proof_of_payment": "abc",
-            "status": "on_review",
-            "is_sold": true,
-            "created_at": "2023-06-18T14:22:15.978477Z",
-            "updated_at": "2023-06-18T14:22:15.978477Z"
+            "created_at": "2023-06-17T22:19:13.881935Z",
+            "updated_at": "2023-06-18T20:34:58.125268Z"
         }
     ],
-    "message": "Success Get All Products"
+    "message": "Success Get All Products",
+    "meta": {
+        "page": 3,
+        "page_size": 4,
+        "total": 10,
+        "total_pages": 3
+    }
 }
 ```
-
-**Response Success (is_sold = true)**
-
-- HTTP Status: 200 OK
-- Content-Type: application/json
-
-```json
-{
-    "data": [
-        {
-            "id": 26,
-            "user_id": 13,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "masih sedikit coretan",
-            "images": "",
-            "price": 90000,
-            "proof_of_payment": "",
-            "status": "on_review",
-            "is_sold": true,
-            "created_at": "2023-06-18T14:19:55.812957Z",
-            "updated_at": "2023-06-18T14:19:55.812957Z"
-        },
-        {
-            "id": 27,
-            "user_id": 13,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "masih sedikit coretan",
-            "images": "abc",
-            "price": 90000,
-            "proof_of_payment": "abc",
-            "status": "on_review",
-            "is_sold": true,
-            "created_at": "2023-06-18T14:22:15.978477Z",
-            "updated_at": "2023-06-18T14:22:15.978477Z"
-        }
-    ],
-    "message": "Success Get All Products"
-}
-```
-**Response Success (is_sold = false)**
-
-- HTTP Status: 200 OK
-- Content-Type: application/json
-
-```json
-{
-    "data": [
-        {
-            "id": 25,
-            "user_id": 13,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "masih sedikit coretan",
-            "images": "",
-            "price": 90000,
-            "proof_of_payment": "",
-            "status": "on_review",
-            "is_sold": false,
-            "created_at": "2023-06-18T14:19:15.039086Z",
-            "updated_at": "2023-06-18T14:19:15.039086Z"
-        }
-    ],
-    "message": "Success Get All Products"
-}
-```
+Response Description:
+- `data`: An array of products that match the query parameters.
+- `meta`: Additional metadata about the response, including the pagination details.
+    - `page`: The current page number.
+    - `page_size`: The number of products per page.
+    - `total`: The total count of products that match the query parameters.
+    - `total_pages`: The total number of pages based on the provided page size and total count.
+- `message`: A descriptive message indicating the success of the request.
 </details>
 
 <details>
