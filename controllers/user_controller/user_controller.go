@@ -2,6 +2,7 @@ package user_controller
 
 import (
 	"encoding/json"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -62,10 +63,67 @@ func Register(w http.ResponseWriter, r *http.Request) {
 func GetList(w http.ResponseWriter, r *http.Request) {
 	var users []models.User
 
-	if err := connection.DB.Preload("Role").Find(&users).Error; err != nil {
+	query := r.URL.Query()
+	role := query.Get("role")
+	pageStr := query.Get("page")
+	pageSizeStr := query.Get("page_size")
+
+	// Default pagination values
+	page := 1
+	pageSize := 10
+
+	if pageStr != "" {
+		var err error
+		page, err = strconv.Atoi(pageStr)
+		if err != nil || page <= 0 {
+			ResponseError(w, http.StatusBadRequest, "Invalid value for 'page' parameter")
+			return
+		}
+	}
+
+	if pageSizeStr != "" {
+		var err error
+		pageSize, err = strconv.Atoi(pageSizeStr)
+		if err != nil || pageSize <= 0 {
+			ResponseError(w, http.StatusBadRequest, "Invalid value for 'page_size' parameter")
+			return
+		}
+	}
+
+	offset := (page - 1) * pageSize
+
+	db := connection.DB
+	if role != "" {
+		if role == "admin" {
+			db = db.Where("role_id = ?", 1001)
+		}
+		if role == "user" {
+			db = db.Where("role_id = ?", 1002)
+		}
+	}
+
+	var totalCount int64
+	if err := db.Model(&models.User{}).Count(&totalCount).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+	var totalPages int64
+	if totalCount > 0 {
+		totalPages = int64(math.Ceil(float64(totalCount) / float64(pageSize)))
+	} else {
+		totalPages = 0
+	}
+
+	if err := db.Offset(offset).Limit(pageSize).Preload("Role").Find(&users).Error; err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	meta := make(map[string]interface{})
+	meta["page"] = page
+	meta["page_size"] = pageSize
+	meta["total"] = totalCount
+	meta["total_pages"] = totalPages
 
 	responseData := make(map[string]interface{})
 	var data []interface{}
@@ -91,6 +149,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responseData["data"] = data
+	responseData["meta"] = meta
 	responseData["message"] = "Success Get All Users"
 
 	helper.ResponseJson(w, http.StatusOK, responseData)

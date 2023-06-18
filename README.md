@@ -99,6 +99,10 @@ Retrieves all users.
 - URL: `/users`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
+- Query Params:
+  - `role` (optional, string): Filter users based on their role.
+  - `page` (optional, integer): Specify the page number for pagination. Defaults to 1 if not provided.
+  - `page_size` (optional, integer): Specify the number of products per page. Defaults to 10 if not provided.
 
 **Response Success**
 
@@ -107,18 +111,34 @@ Retrieves all users.
 
 ```json
 {
-    "data": {
-        "created_at": "0001-01-01T00:00:00Z",
-        "email": "test@gmail.com",
-        "id": 22,
-        "name": "user tes",
-        "role": "admin",
-        "updated_at": "0001-01-01T00:00:00Z",
-        "wa_number": "+628123"
-    },
-    "message": "Success Get Detail Users"
+    "data": [
+        {
+            "id": 14,
+            "role": "admin",
+            "name": "halo",
+            "email": "halo@gmail.com",
+            "wa_number": "+628123",
+            "created_at": "2023-06-17T23:27:06.328783Z",
+            "updated_at": "2023-06-17T23:27:06.328783Z"
+        }
+    ],
+    "message": "Success Get All Users",
+    "meta": {
+        "page": 1,
+        "page_size": 10,
+        "total": 1,
+        "total_pages": 1
+    }
 }
 ```
+Response Description:
+- `data`: An array of users that match the query parameters.
+- `meta`: Additional metadata about the response, including the pagination details.
+    - `page`: The current page number.
+    - `page_size`: The number of products per page.
+    - `total`: The total count of products that match the query parameters.
+    - `total_pages`: The total number of pages based on the provided page size and total count.
+- `message`: A descriptive message indicating the success of the request.
 
 **Response Unauthorized**
 
