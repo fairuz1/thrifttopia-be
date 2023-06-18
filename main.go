@@ -23,7 +23,12 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to Thriftopia API!")
+		fmt.Fprintln(w, "Welcome to Thriftopia API!")
+		fmt.Fprintf(w, "To access the API documentation, please visit the following URL: https://github.com/fairuz1/thrifttopia-be")
+	})
+	r.HandleFunc("/v1", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Welcome to Thriftopia API version 1.0.0 !")
+		fmt.Fprintf(w, "To access the API documentation, please visit the following URL: https://github.com/fairuz1/thrifttopia-be")
 	})
 
 	// User routes
