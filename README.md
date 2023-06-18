@@ -708,6 +708,9 @@ Response Description:
 
 - Method: GET
 - URL: `/product/transaction/history`
+- Query Params:
+  - `page` (optional, integer): Specify the page number for pagination. Defaults to 1 if not provided.
+  - `page_size` (optional, integer): Specify the number of products per page. Defaults to 10 if not provided.
 
 **Response Success**
 
@@ -724,9 +727,24 @@ Response Description:
             "created_at": "2023-06-18T20:34:57.821891Z"
         }
     ],
-    "message": "Success Get All Transaction Histories"
+    "message": "Success Get All Transaction Histories",
+    "meta": {
+        "page": 1,
+        "page_size": 10,
+        "total": 1,
+        "total_pages": 1
+    }
 }
 ```
+Response Description:
+- `data`: An array of products that match the query parameters.
+- `meta`: Additional metadata about the response, including the pagination details.
+    - `page`: The current page number.
+    - `page_size`: The number of products per page.
+    - `total`: The total count of products that match the query parameters.
+    - `total_pages`: The total number of pages based on the provided page size and total count.
+- `message`: A descriptive message indicating the success of the request.
+
 </details>
 
 
