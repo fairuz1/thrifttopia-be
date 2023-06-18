@@ -91,7 +91,7 @@ Note: The access token expires after a certain period of time. If your access to
 <details>
 <summary>Get Users (Admin Only)</summary>
 
-Retrieves all users.
+Retrieves a list of users based on the provided query parameters.
 
 **Request**
 
