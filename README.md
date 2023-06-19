@@ -172,7 +172,7 @@ Retrieves detail information of a user.
 **Request**
 
 - Method: GET
-- URL: `/users/{userId}`
+- URL: `/user/{userId}`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN`
 
@@ -766,7 +766,7 @@ Response Description:
 **Request**
 
 - Method: GET
-- URL: `/product/transaction/history`
+- URL: `/transaction/history`
 - Query Params:
   - `page` (optional, integer): Specify the page number for pagination. Defaults to 1 if not provided.
   - `page_size` (optional, integer): Specify the number of products per page. Defaults to 10 if not provided.
@@ -866,7 +866,7 @@ Response Description:
 **Request**
 
 - Method: GET
-- URL: `/pricing_plan`
+- URL: `/pricing_plans`
 
 **Response Success**
 
