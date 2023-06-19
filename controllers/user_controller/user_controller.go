@@ -31,6 +31,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
+	// check if email already exists
+	existingUser := models.User{}
+	if err := connection.DB.Where("email = ?", user.Email).First(&existingUser).Error; err == nil {
+		ResponseError(w, http.StatusBadRequest, "Email already exists")
+		return
+	}
+
 	// hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -43,7 +50,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	query := `INSERT INTO users (role_id, name, email, password, wa_number, created_at, updated_at)
 			  VALUES (?, ?, ?, ?, ?, ?, ?)`
 
-	if err := connection.DB.Exec(query, user.RoleId, user.Name, user.Email, user.Password, user.WaNumber, user.CreatedAt, user.UpdatedAt).Error; err != nil {
+	if err := connection.DB.Exec(query, 1002, user.Name, user.Email, user.Password, user.WaNumber, user.CreatedAt, user.UpdatedAt).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

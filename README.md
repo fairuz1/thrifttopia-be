@@ -23,7 +23,6 @@ Note: The access token expires after a certain period of time. If your access to
 - Body:
   ```json
   {
-      "role_id" : 1002,
       "name": "user tes",
       "email": "test@gmail.com",
       "password": "abc123",
@@ -31,7 +30,7 @@ Note: The access token expires after a certain period of time. If your access to
   }
 
 
-**Response**
+**Response Success**
 
 - HTTP Status: 201 CREATED
 - Content-Type: application/json
@@ -43,6 +42,17 @@ Note: The access token expires after a certain period of time. If your access to
         "created_at": "0001-01-01T00:00:00Z",
         "updated_at": "0001-01-01T00:00:00Z"
     }
+}
+```
+
+**Response Error**
+
+- HTTP Status: 400 Bad Request
+- Content-Type: application/json
+
+```json
+{
+    "message": "Email already exists"
 }
 ```
 </details>
