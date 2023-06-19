@@ -50,6 +50,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 
 	query := r.URL.Query()
 	isSoldStr := query.Get("is_sold")
+	userID := query.Get("user_id")
 
 	// Pagination parameters
 	pageStr := query.Get("page")
@@ -81,6 +82,11 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	offset := (page - 1) * pageSize
 
 	db := connection.DB
+
+	if userID != "" {
+		db = db.Where("user_id = ?", userID)
+	}
+	
 	var isSold bool
 	if isSoldStr != "" {
 		var err error

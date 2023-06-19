@@ -364,6 +364,7 @@ Retrieves a list of products based on the provided query parameters.
 - Method: GET
 - URL: `/products`
 - Query Params:
+  - `user_id` (optional, integer): Filter product list by by the seller's user ID
   - `is_sold` (optional, boolean): Filter products based on their sold status. Set to `true` to retrieve only sold products, or `false` to retrieve only unsold products.
   - `page` (optional, integer): Specify the page number for pagination. Defaults to 1 if not provided.
   - `page_size` (optional, integer): Specify the number of products per page. Defaults to 10 if not provided.
