@@ -33,6 +33,17 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	for _, imageURL := range product.Images {
+		image := models.Image{
+			ProductID: product.Id,
+			URL:       imageURL.URL,
+		}
+		if err := connection.DB.Create(&image).Error; err != nil {
+			ResponseError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+	}
+
 	meta := make(map[string]interface{})
 	meta["created_at"] = product.CreatedAt
 	meta["updated_at"] = product.UpdatedAt
@@ -86,7 +97,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	if userID != "" {
 		db = db.Where("user_id = ?", userID)
 	}
-	
+
 	var isSold bool
 	if isSoldStr != "" {
 		var err error
@@ -113,6 +124,15 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	if err := db.Offset(offset).Limit(pageSize).Find(&products).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
+	}
+
+	for i, product := range products {
+		var images []models.Image
+		if err := connection.DB.Where("product_id = ?", product.Id).Find(&images).Error; err != nil {
+			ResponseError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		products[i].Images = images
 	}
 
 	meta := make(map[string]interface{})
@@ -150,8 +170,24 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	var images []models.Image
+	if err := connection.DB.Where("product_id = ?", product.Id).Find(&images).Error; err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	imageURLs := make([]map[string]string, len(images))
+	for i, image := range images {
+		imageURLs[i] = map[string]string{
+			"url": image.URL,
+		}
+	}
+
 	responseData := make(map[string]interface{})
-	responseData["data"] = product
+	responseData["data"] = map[string]interface{}{
+		"product":        product,
+		"product_images": imageURLs,
+	}
 	responseData["message"] = "Success Get Detail Product"
 
 	ResponseJson(w, http.StatusOK, responseData)

@@ -316,16 +316,24 @@ Retrieves all user roles.
 - Body:
     ```json
     {
-        "user_id": 13,
+        "user_id": 29,
         "category_id": 1001,
         "location_id": 1001,
         "pricing_id": 1001,
-        "proof_of_payment": "abc",
+        "proof_of_payment": "url.png",
         "price": 90000,
-        "title": "Buku sbmptn",
-        "description": "masih sedikit coretan",
-        "images": "abc"
+        "title": "testing",
+        "description": "testing description",
+        "images": [
+            {
+                "url": "url1.png"
+            },
+            {
+                "url": "url2.png"
+            }
+        ]
     }
+
     ```
 **Response Success**
 
@@ -378,44 +386,71 @@ Retrieves a list of products based on the provided query parameters.
 {
     "data": [
         {
-            "id": 22,
-            "user_id": 13,
+            "id": 46,
+            "user_id": 29,
             "category_id": 1001,
             "location_id": 1001,
             "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "masih sedikit coretan",
-            "images": "",
-            "price": 90000,
-            "proof_of_payment": "",
+            "title": "testing",
+            "description": "ayo dibeli dibeli",
+            "images": [
+                {
+                    "id": 2,
+                    "product_id": 46,
+                    "url": "url1.png"
+                },
+                {
+                    "id": 3,
+                    "product_id": 46,
+                    "url": "url2.png"
+                }
+            ],
+            "price": 234000,
+            "proof_of_payment": "abc",
             "status": "on_review",
-            "is_sold": true,
-            "created_at": "2023-06-01T16:31:28.138464Z",
-            "updated_at": "2023-06-18T20:31:09.668876Z"
+            "is_sold": false,
+            "created_at": "2023-06-19T21:43:05.539534Z",
+            "updated_at": "2023-06-19T21:04:06.692629Z"
         },
         {
-            "id": 23,
-            "user_id": 13,
+            "id": 48,
+            "user_id": 29,
             "category_id": 1001,
             "location_id": 1001,
             "pricing_id": 1001,
-            "title": "Buku sbmptn",
-            "description": "masih sedikit coretan",
-            "images": "",
+            "title": "testing 2",
+            "description": "testing description 2",
+            "images": [
+                {
+                    "id": 4,
+                    "product_id": 48,
+                    "url": "url1.png"
+                },
+                {
+                    "id": 5,
+                    "product_id": 48,
+                    "url": "url2.png"
+                },
+                {
+                    "id": 6,
+                    "product_id": 48,
+                    "url": "url3.png"
+                }
+            ],
             "price": 90000,
-            "proof_of_payment": "",
+            "proof_of_payment": "url.png",
             "status": "on_review",
-            "is_sold": true,
-            "created_at": "2023-06-17T22:19:13.881935Z",
-            "updated_at": "2023-06-18T20:34:58.125268Z"
+            "is_sold": false,
+            "created_at": "2023-06-19T22:08:06.500844Z",
+            "updated_at": "2023-06-19T22:08:06.500844Z"
         }
     ],
     "message": "Success Get All Products",
     "meta": {
-        "page": 3,
-        "page_size": 4,
-        "total": 10,
-        "total_pages": 3
+        "page": 8,
+        "page_size": 2,
+        "total": 16,
+        "total_pages": 8
     }
 }
 ```
@@ -445,20 +480,33 @@ Response Description:
 ```json
 {
     "data": {
-        "id": 25,
-        "user_id": 13,
-        "category_id": 1001,
-        "location_id": 1001,
-        "pricing_id": 1001,
-        "title": "Buku sbmptn",
-        "description": "masih sedikit coretan",
-        "images": "",
-        "price": 90000,
-        "proof_of_payment": "",
-        "status": "on_review",
-        "is_sold": false,
-        "created_at": "2023-06-18T14:19:15.039086Z",
-        "updated_at": "2023-06-18T14:19:15.039086Z"
+        "product": {
+            "id": 48,
+            "user_id": 29,
+            "category_id": 1001,
+            "location_id": 1001,
+            "pricing_id": 1001,
+            "title": "testing 2",
+            "description": "testing description 2",
+            "images": null,
+            "price": 90000,
+            "proof_of_payment": "url.png",
+            "status": "on_review",
+            "is_sold": false,
+            "created_at": "2023-06-19T22:08:06.500844Z",
+            "updated_at": "2023-06-19T22:08:06.500844Z"
+        },
+        "product_images": [
+            {
+                "url": "url1.png"
+            },
+            {
+                "url": "url2.png"
+            },
+            {
+                "url": "url3.png"
+            }
+        ]
     },
     "message": "Success Get Detail Product"
 }
