@@ -374,6 +374,7 @@ Retrieves a list of products based on the provided query parameters.
 - Query Params:
   - `user_id` (optional, integer): Filter product list by by the seller's user ID
   - `is_sold` (optional, boolean): Filter products based on their sold status. Set to `true` to retrieve only sold products, or `false` to retrieve only unsold products.
+  - `status` (optional, string): Filter product list by status(on_review/published/rejected)
   - `page` (optional, integer): Specify the page number for pagination. Defaults to 1 if not provided.
   - `page_size` (optional, integer): Specify the number of products per page. Defaults to 10 if not provided.
 
@@ -386,70 +387,85 @@ Retrieves a list of products based on the provided query parameters.
 {
     "data": [
         {
-            "id": 46,
-            "user_id": 29,
+            "id": 62,
+            "user_id": 31,
             "category_id": 1001,
             "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "testing",
+            "pricing_id": 11,
+            "title": "testing 2",
             "description": "ayo dibeli dibeli",
             "images": [
                 {
-                    "id": 2,
-                    "product_id": 46,
+                    "id": 18,
+                    "product_id": 62,
                     "url": "url1.png"
                 },
                 {
-                    "id": 3,
-                    "product_id": 46,
-                    "url": "url2.png"
-                }
-            ],
-            "price": 234000,
-            "proof_of_payment": "abc",
-            "status": "on_review",
-            "is_sold": false,
-            "created_at": "2023-06-19T21:43:05.539534Z",
-            "updated_at": "2023-06-19T21:04:06.692629Z"
-        },
-        {
-            "id": 48,
-            "user_id": 29,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "testing 2",
-            "description": "testing description 2",
-            "images": [
-                {
-                    "id": 4,
-                    "product_id": 48,
-                    "url": "url1.png"
-                },
-                {
-                    "id": 5,
-                    "product_id": 48,
+                    "id": 19,
+                    "product_id": 62,
                     "url": "url2.png"
                 },
                 {
-                    "id": 6,
-                    "product_id": 48,
+                    "id": 20,
+                    "product_id": 62,
                     "url": "url3.png"
                 }
             ],
-            "price": 90000,
+            "price": 234000,
             "proof_of_payment": "url.png",
-            "status": "on_review",
+            "status": "rejected",
+            "is_sold": true,
+            "created_at": "2023-06-20T09:21:37.829213Z",
+            "updated_at": "2023-06-20T01:23:23.862329Z",
+            "category": {
+                "id": 1001,
+                "name": "Elektronik & Gadget"
+            },
+            "pricing": {
+                "id": 11,
+                "name": "Tanpa iklan ",
+                "price": 4000,
+                "ads_duration": "0 Days"
+            }
+        },
+        {
+            "id": 63,
+            "user_id": 31,
+            "category_id": 1002,
+            "location_id": 1001,
+            "pricing_id": 11,
+            "title": "Radio hitam putih",
+            "description": "lorem ipsum lorem ipsum",
+            "images": [
+                {
+                    "id": 21,
+                    "product_id": 63,
+                    "url": "https://photos.app.goo.gl/8qD9xggKFv32qcgc7"
+                }
+            ],
+            "price": 90000,
+            "proof_of_payment": "https://photos.app.goo.gl/msrADcQcfGzJ4oYz6",
+            "status": "published",
             "is_sold": false,
-            "created_at": "2023-06-19T22:08:06.500844Z",
-            "updated_at": "2023-06-19T22:08:06.500844Z"
+            "created_at": "2023-06-20T10:00:22.319032Z",
+            "updated_at": "2023-06-20T02:57:29.43497Z",
+            "category": {
+                "id": 1002,
+                "name": "Hobi & Olahraga"
+            },
+            "pricing": {
+                "id": 11,
+                "name": "Tanpa iklan ",
+                "price": 4000,
+                "ads_duration": "0 Days"
+            }
         }
     ],
     "message": "Success Get All Products",
     "meta": {
-        "page": 8,
+        "page": 1,
         "page_size": 2,
-        "total": 16,
+        "total": 15,
         "total_pages": 8
     }
 }
@@ -481,30 +497,37 @@ Response Description:
 {
     "data": {
         "product": {
-            "id": 48,
-            "user_id": 29,
-            "category_id": 1001,
+            "id": 66,
+            "user_id": 31,
+            "category_id": 1002,
             "location_id": 1001,
-            "pricing_id": 1001,
-            "title": "testing 2",
-            "description": "testing description 2",
+            "pricing_id": 11,
+            "title": "Jaketjjj",
+            "description": "lorem ipsum lorem ipsum",
             "images": null,
             "price": 90000,
-            "proof_of_payment": "url.png",
+            "proof_of_payment": "https://i.ibb.co/vL6RtvW/proof-of-payment.png",
             "status": "on_review",
             "is_sold": false,
-            "created_at": "2023-06-19T22:08:06.500844Z",
-            "updated_at": "2023-06-19T22:08:06.500844Z"
+            "created_at": "2023-06-20T11:47:12.383922Z",
+            "updated_at": "2023-06-20T11:47:12.383922Z",
+            "category": {
+                "id": 1002,
+                "name": "Hobi & Olahraga"
+            },
+            "pricing": {
+                "id": 11,
+                "name": "Tanpa iklan ",
+                "price": 4000,
+                "ads_duration": "0 Days"
+            }
         },
         "product_images": [
             {
-                "url": "url1.png"
+                "url": "https://i.ibb.co/vLRqKLh/still-life-rendering-jackets-display-1.png"
             },
             {
-                "url": "url2.png"
-            },
-            {
-                "url": "url3.png"
+                "url": "https://i.ibb.co/86NTcm4/sale-jaket-kulit-coklat-1551006578-686345e2.jpg"
             }
         ]
     },

@@ -62,6 +62,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	isSoldStr := query.Get("is_sold")
 	userID := query.Get("user_id")
+	status := query.Get("status")
 
 	// Pagination parameters
 	pageStr := query.Get("page")
@@ -98,6 +99,10 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 		db = db.Where("user_id = ?", userID)
 	}
 
+	if status != "" {
+		db = db.Where("status = ?", status)
+	}
+
 	var isSold bool
 	if isSoldStr != "" {
 		var err error
@@ -121,7 +126,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 		totalPages = 0
 	}
 
-	if err := db.Offset(offset).Limit(pageSize).Find(&products).Error; err != nil {
+	if err := db.Offset(offset).Limit(pageSize).Preload("Category").Preload("Pricing").Find(&products).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -133,6 +138,8 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		products[i].Images = images
+		products[i].Category = product.Category
+		products[i].Pricing = product.Pricing
 	}
 
 	meta := make(map[string]interface{})
@@ -159,7 +166,7 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var product models.Product
-	if err := connection.DB.First(&product, id).Error; err != nil {
+	if err := connection.DB.Preload("Category").Preload("Pricing").First(&product, id).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
 			ResponseError(w, http.StatusNotFound, "Product not found")
@@ -169,6 +176,9 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	product.Category = product.Category
+	product.Pricing = product.Pricing
 
 	var images []models.Image
 	if err := connection.DB.Where("product_id = ?", product.Id).Find(&images).Error; err != nil {
