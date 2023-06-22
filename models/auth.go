@@ -8,7 +8,8 @@ type Credentials struct {
 type LoginData struct {
 	Email        string `json:"email"`
 	Username     string `json:"username"`
-	SessionToken string `json:"token"`
+	Role		 string `json:"role"`
+	Token string `json:"token"`
 }
 type ResponseSuccessLogin struct {
 	Data    LoginData `json:"data"`
