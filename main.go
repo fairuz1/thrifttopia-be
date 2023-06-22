@@ -20,6 +20,15 @@ import (
 
 func main() {
 	connection.ConnectDatabase()
+
+	// seeding data
+	// db := connection.DB
+	// seeder.SeedPricing(db)
+	// seeder.SeedLogAcitvities(db)
+	// seeder.SeedProduct(db)
+	// seeder.SeedImages(db)
+	// seeder.SeedTransactionHistories(db)
+
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
