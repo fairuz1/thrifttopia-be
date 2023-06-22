@@ -126,7 +126,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 		totalPages = 0
 	}
 
-	if err := db.Offset(offset).Limit(pageSize).Preload("Category").Preload("Pricing").Find(&products).Error; err != nil {
+	if err := db.Offset(offset).Limit(pageSize).Preload("Category").Preload("Pricing").Preload("User").Preload("Location").Find(&products).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -137,9 +137,17 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 			ResponseError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
+		var role models.Role
+		if err := connection.DB.Where("id = ?", product.User.RoleId).Find(&role).Error; err != nil {
+			ResponseError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
 		products[i].Images = images
 		products[i].Category = product.Category
 		products[i].Pricing = product.Pricing
+		products[i].User = product.User
+		products[i].User.Role = role
+		products[i].Location = product.Location
 	}
 
 	meta := make(map[string]interface{})
@@ -166,7 +174,7 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var product models.Product
-	if err := connection.DB.Preload("Category").Preload("Pricing").First(&product, id).Error; err != nil {
+	if err := connection.DB.Preload("Category").Preload("Pricing").Preload("User").Preload("Location").First(&product, id).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
 			ResponseError(w, http.StatusNotFound, "Product not found")
@@ -177,8 +185,17 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	var role models.Role
+	if err := connection.DB.Where("id = ?", product.User.RoleId).Find(&role).Error; err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
 	product.Category = product.Category
 	product.Pricing = product.Pricing
+	product.User = product.User
+	product.User.Role = role
+	product.Location = product.Location
 
 	var images []models.Image
 	if err := connection.DB.Where("product_id = ?", product.Id).Find(&images).Error; err != nil {
@@ -193,11 +210,10 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	product.Images = images
+
 	responseData := make(map[string]interface{})
-	responseData["data"] = map[string]interface{}{
-		"product":        product,
-		"product_images": imageURLs,
-	}
+	responseData["data"] = product
 	responseData["message"] = "Success Get Detail Product"
 
 	ResponseJson(w, http.StatusOK, responseData)

@@ -19,7 +19,9 @@ type Product struct {
 	UpdatedAt      time.Time `gorm:"type:timestamp without time zone;not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	Category Category `gorm:"foreignKey:CategoryId;references:Id" json:"category"`
-	Pricing  Pricing  `gorm:"foreignKey:PricingId;references:ID" json:"pricing"`
+	Pricing  Pricings `gorm:"foreignKey:PricingId;references:ID" json:"pricing"`
+	User     User     `gorm:"foreignKey:UserId;references:Id" json:"user"`
+	Location Location `gorm:"foreignKey:LocationId;references:Id" json:"location"`
 }
 
 type Category struct {
@@ -31,9 +33,14 @@ func (r *Category) TableName() string {
 	return "product_categories"
 }
 
-type Pricing struct {
-	ID          int    `gorm:"primaryKey" json:"id"`
-	Name        string `gorm:"type:varchar(50)" json:"name"`
-	Price       int    `gorm:"type:integer" json:"price"`
-	AdsDuration string `gorm:"type:varchar(25)" json:"ads_duration"`
+type Location struct {
+	Id         int    `gorm:"primaryKey" json:"id"`
+	Province   string `json:"province"`
+	City       string `json:"city"`
+	Street     string `json:"street"`
+	PostalCode int    `json:"postal_code"`
+}
+
+func (r *Location) TableName() string {
+	return "location"
 }

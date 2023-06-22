@@ -78,9 +78,10 @@ Note: The access token expires after a certain period of time. If your access to
 ```json
 {
     "data": {
-        "email": "halo@gmail.com",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbG9AZ21haWwuY29tIiwiZXhwIjoxNjg3MTA5MDgxLCJuYW1lIjoiaGFsbyIsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOjE0fQ.II6_1kRtn4OvHlcePlKcBxnK_Jj3vDMrBMrdpH0lCWo",
-        "username": "halo"
+        "email": "salsabila@gmail.com",
+        "role": "user",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbHNhYmlsYUBnbWFpbC5jb20iLCJleHAiOjE2ODc0NTIzNjAsIm5hbWUiOiJTYWxzYWJpbGEiLCJyb2xlIjoidXNlciIsInVzZXJfaWQiOjM3fQ.PVp_VL-7de2m0V6houarT0d80pPZUVzNNmtpN_drOt4",
+        "username": "Salsabila"
     },
     "message": "Login success"
 }
@@ -387,68 +388,31 @@ Retrieves a list of products based on the provided query parameters.
 {
     "data": [
         {
-            "id": 62,
-            "user_id": 31,
-            "category_id": 1001,
-            "location_id": 1001,
-            "pricing_id": 11,
-            "title": "testing 2",
-            "description": "ayo dibeli dibeli",
-            "images": [
-                {
-                    "id": 18,
-                    "product_id": 62,
-                    "url": "url1.png"
-                },
-                {
-                    "id": 19,
-                    "product_id": 62,
-                    "url": "url2.png"
-                },
-                {
-                    "id": 20,
-                    "product_id": 62,
-                    "url": "url3.png"
-                }
-            ],
-            "price": 234000,
-            "proof_of_payment": "url.png",
-            "status": "rejected",
-            "is_sold": true,
-            "created_at": "2023-06-20T09:21:37.829213Z",
-            "updated_at": "2023-06-20T01:23:23.862329Z",
-            "category": {
-                "id": 1001,
-                "name": "Elektronik & Gadget"
-            },
-            "pricing": {
-                "id": 11,
-                "name": "Tanpa iklan ",
-                "price": 4000,
-                "ads_duration": "0 Days"
-            }
-        },
-        {
-            "id": 63,
+            "id": 65,
             "user_id": 31,
             "category_id": 1002,
             "location_id": 1001,
             "pricing_id": 11,
-            "title": "Radio hitam putih",
-            "description": "lorem ipsum lorem ipsum",
+            "title": "Jaket Kulit",
+            "description": "ayo dibeli dibeli",
             "images": [
                 {
-                    "id": 21,
-                    "product_id": 63,
-                    "url": "https://photos.app.goo.gl/8qD9xggKFv32qcgc7"
+                    "id": 23,
+                    "product_id": 65,
+                    "url": "https://i.ibb.co/vLRqKLh/still-life-rendering-jackets-display-1.png"
+                },
+                {
+                    "id": 24,
+                    "product_id": 65,
+                    "url": "https://i.ibb.co/86NTcm4/sale-jaket-kulit-coklat-1551006578-686345e2.jpg"
                 }
             ],
-            "price": 90000,
-            "proof_of_payment": "https://photos.app.goo.gl/msrADcQcfGzJ4oYz6",
+            "price": 180999,
+            "proof_of_payment": "https://i.ibb.co/vL6RtvW/proof-of-payment.png",
             "status": "published",
             "is_sold": false,
-            "created_at": "2023-06-20T10:00:22.319032Z",
-            "updated_at": "2023-06-20T02:57:29.43497Z",
+            "created_at": "2023-06-20T11:03:24.523896Z",
+            "updated_at": "2023-06-20T03:07:14.579393Z",
             "category": {
                 "id": 1002,
                 "name": "Hobi & Olahraga"
@@ -458,15 +422,94 @@ Retrieves a list of products based on the provided query parameters.
                 "name": "Tanpa iklan ",
                 "price": 4000,
                 "ads_duration": "0 Days"
+            },
+            "user": {
+                "id": 31,
+                "role_id": 1002,
+                "name": "John Doe",
+                "email": "johndoe@gmail.com",
+                "password": "secret123",
+                "wa_number": "08000000",
+                "created_at": "2023-06-20T01:44:42.757873Z",
+                "updated_at": "2023-06-20T01:44:42.757873Z",
+                "role": {
+                    "id": 1002,
+                    "name": "user"
+                }
+            },
+            "location": {
+                "id": 1001,
+                "province": "DIY",
+                "city": "Yogyakarta",
+                "street": "Kaliurang",
+                "postal_code": 52666
+            }
+        },
+        {
+            "id": 52,
+            "user_id": 32,
+            "category_id": 1003,
+            "location_id": 1001,
+            "pricing_id": 11,
+            "title": "Jaket Kulit",
+            "description": "lorem ipsum lorem ipsum",
+            "images": [
+                {
+                    "id": 9,
+                    "product_id": 52,
+                    "url": "https://drive.google.com/file/d/1UbrSEu4vxm0IaPPXrp--BK4WDT5SYC6c/view?usp=drive_link"
+                },
+                {
+                    "id": 10,
+                    "product_id": 52,
+                    "url": "https://drive.google.com/file/d/1V_cGnLkiPsd7g840yhLBslLZPfvuR83Y/view?usp=drive_link"
+                }
+            ],
+            "price": 180000,
+            "proof_of_payment": "https://drive.google.com/file/d/1ymVDbsHP6eWRzSxvKFNykociaujrf076/view?usp=sharing",
+            "status": "published",
+            "is_sold": false,
+            "created_at": "2023-06-20T02:04:03.644812Z",
+            "updated_at": "2023-06-20T02:04:03.644812Z",
+            "category": {
+                "id": 1003,
+                "name": "Pakaian & Aksesoris"
+            },
+            "pricing": {
+                "id": 11,
+                "name": "Tanpa iklan ",
+                "price": 4000,
+                "ads_duration": "0 Days"
+            },
+            "user": {
+                "id": 32,
+                "role_id": 1002,
+                "name": "Jane Smith",
+                "email": "janesmith@gmail.com",
+                "password": "secret123",
+                "wa_number": "08000001",
+                "created_at": "2023-06-20T01:44:43.063459Z",
+                "updated_at": "2023-06-20T01:44:43.063459Z",
+                "role": {
+                    "id": 1002,
+                    "name": "user"
+                }
+            },
+            "location": {
+                "id": 1001,
+                "province": "DIY",
+                "city": "Yogyakarta",
+                "street": "Kaliurang",
+                "postal_code": 52666
             }
         }
     ],
     "message": "Success Get All Products",
     "meta": {
-        "page": 1,
+        "page": 2,
         "page_size": 2,
-        "total": 15,
-        "total_pages": 8
+        "total": 11,
+        "total_pages": 6
     }
 }
 ```
@@ -496,40 +539,62 @@ Response Description:
 ```json
 {
     "data": {
-        "product": {
-            "id": 66,
-            "user_id": 31,
-            "category_id": 1002,
-            "location_id": 1001,
-            "pricing_id": 11,
-            "title": "Jaketjjj",
-            "description": "lorem ipsum lorem ipsum",
-            "images": null,
-            "price": 90000,
-            "proof_of_payment": "https://i.ibb.co/vL6RtvW/proof-of-payment.png",
-            "status": "on_review",
-            "is_sold": false,
-            "created_at": "2023-06-20T11:47:12.383922Z",
-            "updated_at": "2023-06-20T11:47:12.383922Z",
-            "category": {
-                "id": 1002,
-                "name": "Hobi & Olahraga"
-            },
-            "pricing": {
-                "id": 11,
-                "name": "Tanpa iklan ",
-                "price": 4000,
-                "ads_duration": "0 Days"
-            }
-        },
-        "product_images": [
+        "id": 66,
+        "user_id": 31,
+        "category_id": 1002,
+        "location_id": 1001,
+        "pricing_id": 11,
+        "title": "Jaketjjj",
+        "description": "lorem ipsum lorem ipsum",
+        "images": [
             {
+                "id": 25,
+                "product_id": 66,
                 "url": "https://i.ibb.co/vLRqKLh/still-life-rendering-jackets-display-1.png"
             },
             {
+                "id": 26,
+                "product_id": 66,
                 "url": "https://i.ibb.co/86NTcm4/sale-jaket-kulit-coklat-1551006578-686345e2.jpg"
             }
-        ]
+        ],
+        "price": 90000,
+        "proof_of_payment": "https://i.ibb.co/vL6RtvW/proof-of-payment.png",
+        "status": "on_review",
+        "is_sold": false,
+        "created_at": "2023-06-20T11:47:12.383922Z",
+        "updated_at": "2023-06-20T11:47:12.383922Z",
+        "category": {
+            "id": 1002,
+            "name": "Hobi & Olahraga"
+        },
+        "pricing": {
+            "id": 11,
+            "name": "Tanpa iklan ",
+            "price": 4000,
+            "ads_duration": "0 Days"
+        },
+        "user": {
+            "id": 31,
+            "role_id": 1002,
+            "name": "John Doe",
+            "email": "johndoe@gmail.com",
+            "password": "secret123",
+            "wa_number": "08000000",
+            "created_at": "2023-06-20T01:44:42.757873Z",
+            "updated_at": "2023-06-20T01:44:42.757873Z",
+            "role": {
+                "id": 1002,
+                "name": "user"
+            }
+        },
+        "location": {
+            "id": 1001,
+            "province": "DIY",
+            "city": "Yogyakarta",
+            "street": "Kaliurang",
+            "postal_code": 52666
+        }
     },
     "message": "Success Get Detail Product"
 }
