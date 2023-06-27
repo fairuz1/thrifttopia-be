@@ -423,19 +423,9 @@ Retrieves a list of products based on the provided query parameters.
                 "price": 4000,
                 "ads_duration": "0 Days"
             },
-            "user": {
-                "id": 31,
-                "role_id": 1002,
+            "seller": {
                 "name": "John Doe",
-                "email": "johndoe@gmail.com",
-                "password": "secret123",
-                "wa_number": "08000000",
-                "created_at": "2023-06-20T01:44:42.757873Z",
-                "updated_at": "2023-06-20T01:44:42.757873Z",
-                "role": {
-                    "id": 1002,
-                    "name": "user"
-                }
+                "wa_number": "08000000"
             },
             "location": {
                 "id": 1001,
@@ -481,19 +471,9 @@ Retrieves a list of products based on the provided query parameters.
                 "price": 4000,
                 "ads_duration": "0 Days"
             },
-            "user": {
-                "id": 32,
-                "role_id": 1002,
+            "seller": {
                 "name": "Jane Smith",
-                "email": "janesmith@gmail.com",
-                "password": "secret123",
-                "wa_number": "08000001",
-                "created_at": "2023-06-20T01:44:43.063459Z",
-                "updated_at": "2023-06-20T01:44:43.063459Z",
-                "role": {
-                    "id": 1002,
-                    "name": "user"
-                }
+                "wa_number": "08000001"
             },
             "location": {
                 "id": 1001,
@@ -544,7 +524,7 @@ Response Description:
         "category_id": 1002,
         "location_id": 1001,
         "pricing_id": 11,
-        "title": "Jaketjjj",
+        "title": "Jaket Kulit Asli",
         "description": "lorem ipsum lorem ipsum",
         "images": [
             {
@@ -574,19 +554,9 @@ Response Description:
             "price": 4000,
             "ads_duration": "0 Days"
         },
-        "user": {
-            "id": 31,
-            "role_id": 1002,
+        "seller": {
             "name": "John Doe",
-            "email": "johndoe@gmail.com",
-            "password": "secret123",
-            "wa_number": "08000000",
-            "created_at": "2023-06-20T01:44:42.757873Z",
-            "updated_at": "2023-06-20T01:44:42.757873Z",
-            "role": {
-                "id": 1002,
-                "name": "user"
-            }
+            "wa_number": "08000000"
         },
         "location": {
             "id": 1001,

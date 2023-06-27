@@ -20,8 +20,13 @@ type Product struct {
 
 	Category Category `gorm:"foreignKey:CategoryId;references:Id" json:"category"`
 	Pricing  Pricings `gorm:"foreignKey:PricingId;references:ID" json:"pricing"`
-	User     User     `gorm:"foreignKey:UserId;references:Id" json:"user"`
+	User     Seller   `gorm:"-" json:"seller"`
 	Location Location `gorm:"foreignKey:LocationId;references:Id" json:"location"`
+}
+
+type Seller struct {
+	Name     string `gorm:"-" json:"name"`
+	WaNumber string `gorm:"-" json:"wa_number"`
 }
 
 type Category struct {

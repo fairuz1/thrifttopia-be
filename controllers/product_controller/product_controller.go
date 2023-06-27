@@ -126,7 +126,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 		totalPages = 0
 	}
 
-	if err := db.Offset(offset).Limit(pageSize).Preload("Category").Preload("Pricing").Preload("User").Preload("Location").Find(&products).Error; err != nil {
+	if err := db.Offset(offset).Limit(pageSize).Preload("Category").Preload("Pricing").Preload("Location").Find(&products).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -137,16 +137,19 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 			ResponseError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
-		var role models.Role
-		if err := connection.DB.Where("id = ?", product.User.RoleId).Find(&role).Error; err != nil {
+		var user models.User
+		if err := connection.DB.Where("id = ?", product.UserId).Find(&user).Error; err != nil {
 			ResponseError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
+		var seller models.Seller
+		seller.Name = user.Name
+		seller.WaNumber = user.WaNumber
+
 		products[i].Images = images
 		products[i].Category = product.Category
 		products[i].Pricing = product.Pricing
-		products[i].User = product.User
-		products[i].User.Role = role
+		products[i].User = seller
 		products[i].Location = product.Location
 	}
 
@@ -174,7 +177,7 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var product models.Product
-	if err := connection.DB.Preload("Category").Preload("Pricing").Preload("User").Preload("Location").First(&product, id).Error; err != nil {
+	if err := connection.DB.Preload("Category").Preload("Pricing").Preload("Location").First(&product, id).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
 			ResponseError(w, http.StatusNotFound, "Product not found")
@@ -184,17 +187,19 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-
-	var role models.Role
-	if err := connection.DB.Where("id = ?", product.User.RoleId).Find(&role).Error; err != nil {
+	
+	var user models.User
+	if err := connection.DB.Where("id = ?", product.UserId).Find(&user).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	product.Category = product.Category
 	product.Pricing = product.Pricing
-	product.User = product.User
-	product.User.Role = role
+	product.User = models.Seller{
+		Name:     user.Name,
+		WaNumber: user.WaNumber,
+	}
 	product.Location = product.Location
 
 	var images []models.Image
